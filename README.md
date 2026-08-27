@@ -8,6 +8,29 @@ Rastreador de vencimiento de productos para Home Assistant. Gestiona un inventar
 
 [🇬🇧 English version](README_EN.md)
 
+## 📸 Demo
+
+### Telegram Workflow (15 segundos)
+
+```
+📱 Usuario: [Envía foto del producto]
+
+🤖 Bot: 📸 Foto recibida: Mayonesa Hellmann's
+        
+        ¿Cuál es la fecha de vencimiento?
+        Formatos válidos: DD/MM/AA, DD/MM/YYYY, DD-MM-AA
+
+📱 Usuario: 25/08/26
+
+🤖 Bot: ✅ Producto agregado
+        
+        📦 Nombre: Mayonesa Hellmann's
+        📅 Vencimiento: 25/08/2026
+        ⏱ VENCE EN 45 DÍAS
+```
+
+> Ver [docs/DEMO.md](docs/DEMO.md) para screenshots completos
+
 ## ✨ Características
 
 - **4 sensores nativos** de Home Assistant con datos en tiempo real

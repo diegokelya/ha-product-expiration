@@ -8,6 +8,29 @@ Product expiration tracker for Home Assistant. Manage your inventory with expira
 
 [🇪🇸 Versión en Español](README.md)
 
+## 📸 Demo
+
+### Telegram Workflow (15 seconds)
+
+```
+📱 User: [Sends product photo]
+
+🤖 Bot: 📸 Photo received: Hellmann's Mayonnaise
+        
+        What is the expiration date?
+        Valid formats: DD/MM/YY, DD/MM/YYYY, DD-MM-YY
+
+📱 User: 08/25/26
+
+🤖 Bot: ✅ Product added
+        
+        📦 Name: Hellmann's Mayonnaise
+        📅 Expiration: 08/25/2026
+        ⏱ EXPIRES IN 45 DAYS
+```
+
+> See [docs/DEMO.md](docs/DEMO.md) for complete screenshots
+
 ## ✨ Features
 
 - **4 native Home Assistant sensors** with real-time data
