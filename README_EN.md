@@ -180,24 +180,37 @@ automation:
 
 ### Telegram Bot (⚡ Recommended - 15 seconds)
 
+**Version 2.0 available:** Automatic OCR + Management commands
+
 Ultra-fast workflow via Telegram:
 
 1. Send photo to bot
-2. Reply with date (DD/MM/YY)
-3. Product added automatically
+2. **Bot detects date automatically (OCR)**
+3. Confirm or correct
+4. Product added
+
+**New: Management commands**
+- `/venc lista` — List upcoming expirations
+- `/venc consumido <name>` — Delete product
+- `/venc buscar <name>` — Search products
+- `/venc ayuda` — Full help
 
 ```bash
 cd examples/telegram-workflow
-./install.sh
+./install.sh              # Initial installation
+# Or upgrade from v1:
+./upgrade_to_v2.sh        # OCR + commands + daily alerts
 ```
 
-See [examples/telegram-workflow/README_EN.md](examples/telegram-workflow/README_EN.md) for complete instructions.
+See [examples/telegram-workflow/README_V2.md](examples/telegram-workflow/README_V2.md) for complete v2.0 docs.
 
-**Features:**
-- ⚡ 15 seconds vs. 2-3 minutes with dashboard
-- 📱 From any mobile device
-- ✅ Immediate confirmation with days remaining
-- ⚠️ Alert if product is already expired
+**v2.0 Features:**
+- ⚡ **5 seconds** with OCR (vs 15 manual)
+- 🤖 Automatic date detection
+- 📋 Full management commands
+- 🏷️ Auto-categorization
+- 📅 Optional daily alerts
+- ✅ Fallback to manual if OCR fails
 
 ### Simple Upload from HA Dashboard
 
