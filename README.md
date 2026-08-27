@@ -151,23 +151,60 @@ automation:
             ({{ state_attr('sensor.product_expiration_next_expiry', 'days_until_expiry') }} días)
 ```
 
-## 📸 Upload de Fotos desde Home Assistant
+## 📸 Workflows de Ingreso de Productos
 
-Workflow completo para tomar fotos de productos, extraer fecha de vencimiento con OCR y agregar automáticamente:
+### Telegram Bot (⚡ Recomendado - 15 segundos)
+
+Workflow ultra-rápido vía Telegram:
+
+1. Enviás foto al bot
+2. Respondés con fecha (DD/MM/AA)
+3. Producto agregado automáticamente
+
+```bash
+cd examples/telegram-workflow
+./install.sh
+```
+
+Ver [examples/telegram-workflow/README.md](examples/telegram-workflow/README.md) para instrucciones completas.
+
+**Características:**
+- ⚡ 15 segundos vs. 2-3 minutos con dashboard
+- 📱 Desde cualquier dispositivo móvil
+- ✅ Confirmación inmediata con días restantes
+- ⚠️ Alerta si el producto ya está vencido
+
+### Simple Upload desde HA Dashboard
+
+Workflow manual con automatizaciones YAML nativas (sin OCR):
+
+```bash
+cd examples/simple-upload
+```
+
+Ver [examples/simple-upload/README.md](examples/simple-upload/README.md)
+
+**Características:**
+- ✅ Sin dependencias externas
+- 📸 Snapshot desde cámara de HA
+- ⌨️ Ingreso manual de fecha
+- 📊 Preview visual antes de confirmar
+
+### Upload con OCR (avanzado)
+
+Workflow completo con extracción automática de fecha:
 
 ```bash
 cd examples/upload-workflow
 ./install.sh
 ```
 
-Ver [examples/upload-workflow/README.md](examples/upload-workflow/README.md) para instrucciones detalladas.
+Ver [examples/upload-workflow/README.md](examples/upload-workflow/README.md)
 
 **Características:**
-- Snapshot desde cámara configurada o upload manual
-- OCR automático de fecha de vencimiento (pytesseract)
-- Múltiples formatos: DD/MM/YY, VTO: DD/MM/YYYY, DD MES YYYY
-- Dashboard card con preview y estado
-- Notificaciones cuando se agrega producto
+- 🤖 OCR automático de fecha (pytesseract)
+- 📋 Múltiples formatos: DD/MM/YY, VTO: DD/MM/YYYY, DD MES YYYY
+- 📸 Snapshot desde cámara o upload manual
 
 ## 📤 Migración desde sistema existente
 

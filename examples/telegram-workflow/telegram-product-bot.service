@@ -1,0 +1,17 @@
+[Unit]
+Description=Telegram Product Bot for Home Assistant
+After=network.target
+
+[Service]
+Type=simple
+User=diego
+WorkingDirectory=/home/diego/projects/ha-product-expiration/examples/telegram-workflow
+EnvironmentFile=/home/diego/.hermes/.env
+ExecStart=/usr/bin/python3 /home/diego/projects/ha-product-expiration/examples/telegram-workflow/telegram_product_bot.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
