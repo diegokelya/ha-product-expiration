@@ -1,0 +1,28 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Validate Python syntax
+        run: |
+          python -m py_compile custom_components/product_expiration/*.py
+      
+      - name: Check code formatting
+        run: |
+          pip install ruff
+          ruff check custom_components/product_expiration/
+        continue-on-error: true

@@ -1,5 +1,8 @@
 {
   "name": "Product Expiration Tracker",
+  "content_in_root": false,
+  "filename": "product_expiration",
   "render_readme": true,
-  "domains": ["product_expiration"]
+  "domains": ["sensor"],
+  "homeassistant": "2023.1.0"
 }
