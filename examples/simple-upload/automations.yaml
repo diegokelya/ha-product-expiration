@@ -1,0 +1,78 @@
+# Workflow simple de upload de fotos SIN OCR
+# Solo toma foto y permite ingreso manual de fecha
+
+# 1. Tomar snapshot cuando se ingresa nombre de producto
+- id: product_photo_capture
+  alias: "Producto: Capturar foto"
+  trigger:
+    - platform: state
+      entity_id: input_text.product_name_capture
+  condition:
+    - condition: template
+      value_template: "{{ trigger.to_state.state | length > 0 }}"
+  action:
+    # Tomar snapshot
+    - service: camera.snapshot
+      data:
+        entity_id: camera.entrada
+        filename: "/config/www/product_photos/{{ now().strftime('%Y%m%d_%H%M%S') }}_{{ states('input_text.product_name_capture') | slugify }}.jpg"
+    
+    # Guardar filename para referencia
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.current_photo_file
+      data:
+        value: "{{ now().strftime('%Y%m%d_%H%M%S') }}_{{ states('input_text.product_name_capture') | slugify }}.jpg"
+    
+    # Copiar nombre a input para confirmar
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.product_name_confirm
+      data:
+        value: "{{ states('input_text.product_name_capture') }}"
+    
+    # Limpiar input de captura
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.product_name_capture
+      data:
+        value: ""
+
+# 2. Agregar producto cuando se confirma con fecha
+- id: product_add_with_photo
+  alias: "Producto: Agregar con foto"
+  trigger:
+    - platform: state
+      entity_id: input_datetime.product_expiry_date
+  condition:
+    - condition: template
+      value_template: "{{ states('input_text.product_name_confirm') | length > 0 }}"
+    - condition: template
+      value_template: "{{ states('input_text.current_photo_file') | length > 0 }}"
+  action:
+    # Agregar producto
+    - service: product_expiration.add_product
+      data:
+        name: "{{ states('input_text.product_name_confirm') }}"
+        expiry: "{{ states('input_datetime.product_expiry_date') }}"
+        image: "{{ states('input_text.current_photo_file') }}"
+        confidence: "confirmada por usuario"
+    
+    # Notificar
+    - service: notify.mobile_app_iphone_de_diego
+      data:
+        title: "✅ Producto agregado"
+        message: "{{ states('input_text.product_name_confirm') }} - Vence: {{ states('input_datetime.product_expiry_date') }}"
+    
+    # Limpiar inputs
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.product_name_confirm
+      data:
+        value: ""
+    
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.current_photo_file
+      data:
+        value: ""

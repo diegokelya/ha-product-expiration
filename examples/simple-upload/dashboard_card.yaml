@@ -1,0 +1,96 @@
+# Dashboard card simple para agregar productos con foto
+# SIN OCR - ingreso manual de fecha
+
+type: vertical-stack
+cards:
+  # Paso 1: Capturar foto
+  - type: entities
+    title: "📸 Paso 1: Capturar Foto"
+    entities:
+      - entity: camera.entrada
+        name: Vista previa
+      - entity: input_text.product_name_capture
+        name: Nombre del producto
+    footer:
+      type: button
+      name: "Tomar Foto"
+      icon: mdi:camera
+      tap_action:
+        action: call-service
+        service: input_text.set_value
+        service_data:
+          entity_id: input_text.product_name_capture
+          value: "{{ states('input_text.product_name_capture') }}"
+
+  # Paso 2: Confirmar y agregar fecha
+  - type: conditional
+    conditions:
+      - entity: input_text.current_photo_file
+        state_not: ""
+    card:
+      type: vertical-stack
+      cards:
+        - type: picture
+          title: "Foto capturada"
+          image: "/local/product_photos/{{ states('input_text.current_photo_file') }}"
+        
+        - type: entities
+          title: "📅 Paso 2: Ingresar Fecha de Vencimiento"
+          entities:
+            - entity: input_text.product_name_confirm
+              name: Producto
+            - entity: input_datetime.product_expiry_date
+              name: Fecha de vencimiento
+          footer:
+            type: button
+            name: "Agregar Producto"
+            icon: mdi:plus-circle
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              service_data:
+                entity_id: automation.producto_agregar_con_foto
+
+  # Resumen
+  - type: markdown
+    title: "📊 Productos"
+    content: |
+      **Total:** {{ states('sensor.product_expiration_total_products') }}
+      **Por vencer:** {{ states('sensor.product_expiration_expiring_soon') }}
+      **Vencidos:** {{ states('sensor.product_expiration_expired_products') }}
+
+---
+
+# Versión compacta (todo en una card)
+
+type: entities
+title: "📸 Agregar Producto"
+entities:
+  - type: section
+    label: "1. Capturar Foto"
+  - entity: input_text.product_name_capture
+    name: Nombre del producto
+  
+  - type: conditional
+    conditions:
+      - entity: input_text.current_photo_file
+        state_not: ""
+    row:
+      type: section
+      label: "2. Confirmar Fecha"
+  
+  - type: conditional
+    conditions:
+      - entity: input_text.current_photo_file
+        state_not: ""
+    row:
+      entity: input_text.product_name_confirm
+      name: Producto
+  
+  - type: conditional
+    conditions:
+      - entity: input_text.current_photo_file
+        state_not: ""
+    row:
+      entity: input_datetime.product_expiry_date
+      name: Fecha vencimiento
