@@ -1,0 +1,224 @@
+# Dashboard con custom cards de HACS
+# Requiere: button-card, auto-entities, card-mod instalados
+
+type: vertical-stack
+cards:
+  # Botón grande para capturar
+  - type: custom:button-card
+    entity: input_text.product_name_capture
+    name: "📸 Capturar Producto"
+    show_state: false
+    tap_action:
+      action: call-service
+      service: browser_mod.popup
+      service_data:
+        title: "Nombre del Producto"
+        content:
+          type: entities
+          entities:
+            - entity: input_text.product_name_capture
+              name: Nombre
+            - entity: camera.entrada
+              name: Vista previa
+    styles:
+      card:
+        - height: 80px
+        - background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)
+        - color: white
+        - font-size: 20px
+        - border-radius: 12px
+      icon:
+        - width: 40px
+        - height: 40px
+  
+  # Vista condicional cuando hay foto capturada
+  - type: conditional
+    conditions:
+      - entity: input_text.current_photo_file
+        state_not: ""
+    card:
+      type: vertical-stack
+      cards:
+        # Preview de la foto
+        - type: picture
+          image: "/local/product_photos/{{ states('input_text.current_photo_file') }}"
+          tap_action:
+            action: none
+        
+        # Formulario de confirmación
+        - type: custom:button-card
+          color_type: card
+          color: rgb(66, 134, 244)
+          name: "📅 Confirmar y Agregar"
+          show_icon: false
+          styles:
+            card:
+              - height: 60px
+              - font-size: 18px
+          tap_action:
+            action: call-service
+            service: browser_mod.popup
+            service_data:
+              title: "Fecha de Vencimiento"
+              content:
+                type: entities
+                entities:
+                  - entity: input_text.product_name_confirm
+                    name: Producto
+                  - entity: input_datetime.product_expiry_date
+                    name: Fecha de vencimiento
+
+  # Lista automática de productos próximos a vencer
+  - type: custom:auto-entities
+    card:
+      type: entities
+      title: "📦 Productos Próximos a Vencer"
+    filter:
+      include:
+        - entity_id: sensor.product_expiration_expiring_soon
+          options:
+            type: custom:multiple-entity-row
+            entity: sensor.product_expiration_expiring_soon
+            name: Por vencer
+            secondary_info: last-changed
+            entities:
+              - attribute: products
+                name: Cantidad
+    show_empty: false
+
+  # Resumen con iconos
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        entity: sensor.product_expiration_total_products
+        name: Total
+        icon: mdi:package-variant
+        show_state: true
+        styles:
+          card:
+            - background: rgba(3, 169, 244, 0.1)
+          icon:
+            - color: rgb(3, 169, 244)
+      
+      - type: custom:button-card
+        entity: sensor.product_expiration_expiring_soon
+        name: Por Vencer
+        icon: mdi:clock-alert-outline
+        show_state: true
+        styles:
+          card:
+            - background: rgba(255, 152, 0, 0.1)
+          icon:
+            - color: rgb(255, 152, 0)
+      
+      - type: custom:button-card
+        entity: sensor.product_expiration_expired_products
+        name: Vencidos
+        icon: mdi:alert-circle
+        show_state: true
+        styles:
+          card:
+            - background: rgba(244, 67, 54, 0.1)
+          icon:
+            - color: rgb(244, 67, 54)
+
+---
+
+# Versión alternativa: Galería de productos con fotos
+
+type: custom:auto-entities
+card:
+  type: grid
+  columns: 2
+  square: false
+filter:
+  template: |
+    {% set products = state_attr('sensor.product_expiration_total_products', 'products') %}
+    {% if products %}
+      {% for p in products[:6] %}
+        {{
+          {
+            'type': 'custom:button-card',
+            'entity': 'sensor.product_expiration_total_products',
+            'name': p.name,
+            'show_entity_picture': true,
+            'entity_picture': '/local/product_photos/' + p.image if p.image else '/local/default_product.png',
+            'show_state': false,
+            'styles': {
+              'card': [
+                'height: 120px',
+                'border-radius: 8px'
+              ],
+              'name': [
+                'font-size: 12px',
+                'white-space: normal'
+              ]
+            },
+            'custom_fields': {
+              'expiry': {
+                'card': {
+                  'type': 'custom:button-card',
+                  'entity': 'sensor.product_expiration_total_products',
+                  'name': p.expiry,
+                  'show_icon': false,
+                  'styles': {
+                    'card': [
+                      'background: rgba(0,0,0,0.5)',
+                      'font-size: 10px',
+                      'padding: 2px',
+                      'border-radius: 4px'
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }},
+      {% endfor %}
+    {% endif %}
+
+---
+
+# Versión minimalista (sin popups)
+
+type: vertical-stack
+cards:
+  # Input simple
+  - type: entities
+    entities:
+      - entity: input_text.product_name_capture
+        name: "📸 Nombre del producto (enter para capturar)"
+      - entity: camera.entrada
+        name: Cámara
+  
+  # Confirmación
+  - type: conditional
+    conditions:
+      - entity: input_text.current_photo_file
+        state_not: ""
+    card:
+      type: entities
+      title: "Confirmar Producto"
+      entities:
+        - entity: input_text.product_name_confirm
+          name: Producto
+        - entity: input_datetime.product_expiry_date
+          name: Fecha de vencimiento
+  
+  # Preview
+  - type: conditional
+    conditions:
+      - entity: input_text.current_photo_file
+        state_not: ""
+    card:
+      type: picture
+      image: "/local/product_photos/{{ states('input_text.current_photo_file') }}"
+
+  # Estadísticas
+  - type: custom:auto-entities
+    card:
+      type: glance
+      title: Resumen
+    filter:
+      include:
+        - entity_id: sensor.product_expiration_*

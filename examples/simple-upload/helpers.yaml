@@ -1,0 +1,25 @@
+# Helpers para workflow simple de upload de fotos
+# Agregar esto a /config/configuration.yaml en Home Assistant
+
+input_text:
+  product_name_capture:
+    name: Capturar Producto
+    icon: mdi:camera
+    max: 255
+  
+  product_name_confirm:
+    name: Confirmar Producto
+    icon: mdi:check
+    max: 255
+  
+  current_photo_file:
+    name: Archivo Foto Actual
+    icon: mdi:file-image
+    max: 255
+
+input_datetime:
+  product_expiry_date:
+    name: Fecha Vencimiento Producto
+    icon: mdi:calendar
+    has_date: true
+    has_time: false
