@@ -1,8 +1,8 @@
 # Home Assistant Product Expiration Tracker
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
-[![GitHub release](https://img.shields.io/github/release/diegokelyacoubian/ha-product-expiration.svg)](https://github.com/diegokelyacoubian/ha-product-expiration/releases)
-[![License](https://img.shields.io/github/license/diegokelyacoubian/ha-product-expiration.svg)](LICENSE)
+[![GitHub release](https://img.shields.io/github/release/diegokelya/ha-product-expiration.svg)](https://github.com/diegokelya/ha-product-expiration/releases)
+[![License](https://img.shields.io/github/license/diegokelya/ha-product-expiration.svg)](LICENSE)
 
 Rastreador de vencimiento de productos para Home Assistant. Gestiona un inventario con fechas de vencimiento y te alerta automáticamente antes de que caduquen.
 
@@ -28,7 +28,7 @@ Rastreador de vencimiento de productos para Home Assistant. Gestiona un inventar
 1. Abrí HACS en Home Assistant
 2. Andá a "Integraciones"
 3. Hacé clic en ⋮ (menú) → "Repositorios personalizados"
-4. Agregá: `https://github.com/diegokelyacoubian/ha-product-expiration`
+4. Agregá: `https://github.com/diegokelya/ha-product-expiration`
 5. Categoría: "Integration"
 6. Buscá "Product Expiration Tracker" e instalá
 7. **Reiniciá Home Assistant**
@@ -254,7 +254,7 @@ cards:
 
 ```bash
 # Clonar
-git clone https://github.com/diegokelyacoubian/ha-product-expiration
+git clone https://github.com/diegokelya/ha-product-expiration
 cd ha-product-expiration
 
 # Tests (requiere pytest)
@@ -283,7 +283,7 @@ MIT License - ver [LICENSE](LICENSE)
 
 ## 🐛 Soporte
 
-[Reportar un problema](https://github.com/diegokelyacoubian/ha-product-expiration/issues)
+[Reportar un problema](https://github.com/diegokelya/ha-product-expiration/issues)
 
 ---
 
