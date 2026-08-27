@@ -2,6 +2,8 @@
 
 Workflow para agregar productos con foto desde Home Assistant **sin instalar dependencias adicionales**.
 
+[🇬🇧 English version](README_EN.md)
+
 ## Diferencia con el workflow OCR
 
 - ❌ NO requiere pytesseract, tesseract-ocr, ni Python scripts

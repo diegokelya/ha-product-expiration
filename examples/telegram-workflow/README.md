@@ -8,6 +8,8 @@ Workflow ultra-rápido para agregar productos vía Telegram Bot:
 
 **Tiempo:** ~15 segundos vs. 2-3 minutos con dashboard.
 
+[🇬🇧 English version](README_EN.md)
+
 ## Instalación
 
 ### 1. Requisitos previos

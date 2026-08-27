@@ -6,6 +6,8 @@
 
 Rastreador de vencimiento de productos para Home Assistant. Gestiona un inventario con fechas de vencimiento y te alerta automáticamente antes de que caduquen.
 
+[🇬🇧 English version](README_EN.md)
+
 ## ✨ Características
 
 - **4 sensores nativos** de Home Assistant con datos en tiempo real
