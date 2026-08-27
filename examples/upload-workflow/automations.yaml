@@ -1,0 +1,84 @@
+# Automatizaciones para upload de fotos de productos
+# Copiá esto a tu automations.yaml o configuration.yaml
+
+# 1. Tomar snapshot de cámara y procesar
+- id: product_photo_snapshot
+  alias: "Producto: Tomar foto y escanear"
+  trigger:
+    - platform: state
+      entity_id: input_text.product_photo_name
+  condition:
+    - condition: template
+      value_template: "{{ trigger.to_state.state | length > 0 }}"
+  action:
+    # Tomar snapshot
+    - service: camera.snapshot
+      data:
+        entity_id: camera.entrada  # Cambiá por tu cámara
+        filename: "/config/www/product_photos/{{ now().strftime('%Y%m%d_%H%M%S') }}_{{ states('input_text.product_photo_name') | slugify }}.jpg"
+    
+    # Guardar nombre del archivo
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.product_last_photo
+      data:
+        value: "{{ now().strftime('%Y%m%d_%H%M%S') }}_{{ states('input_text.product_photo_name') | slugify }}.jpg"
+    
+    # Delay para que se guarde el archivo
+    - delay:
+        seconds: 2
+    
+    # Procesar OCR
+    - service: python_script.ocr_expiry_date
+      data:
+        image_path: "/config/www/product_photos/{{ states('input_text.product_last_photo') }}"
+        product_name: "{{ states('input_text.product_photo_name') }}"
+    
+    # Limpiar input
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.product_photo_name
+      data:
+        value: ""
+    
+    # Notificación
+    - service: notify.mobile_app_iphone_de_diego
+      data:
+        title: "✅ Producto agregado"
+        message: "Foto procesada: {{ states('input_text.product_last_photo') }}"
+
+# 2. Detectar archivo nuevo en carpeta (watchdog)
+- id: product_photo_folder_watch
+  alias: "Producto: Detectar foto nueva en carpeta"
+  trigger:
+    - platform: event
+      event_type: folder_watcher
+      event_data:
+        event_type: created
+  condition:
+    - condition: template
+      value_template: "{{ trigger.event.data.path.endswith(('.jpg', '.jpeg', '.png')) }}"
+    - condition: template
+      value_template: "{{ 'product_photos' in trigger.event.data.path }}"
+  action:
+    - service: python_script.ocr_expiry_date
+      data:
+        image_path: "{{ trigger.event.data.path }}"
+        product_name: "{{ trigger.event.data.file | replace('.jpg', '') | replace('.png', '') | replace('_', ' ') }}"
+
+# 3. Botón manual para re-escanear última foto
+- id: product_photo_rescan
+  alias: "Producto: Re-escanear última foto"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.rescan_last_photo
+      to: 'on'
+  action:
+    - service: python_script.ocr_expiry_date
+      data:
+        image_path: "/config/www/product_photos/{{ states('input_text.product_last_photo') }}"
+        product_name: "Producto re-escaneado"
+    
+    - service: input_boolean.turn_off
+      target:
+        entity_id: input_boolean.rescan_last_photo

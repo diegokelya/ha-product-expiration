@@ -1,0 +1,89 @@
+# Dashboard card para agregar productos con foto
+# Agregá esto a tu Lovelace dashboard
+
+type: vertical-stack
+cards:
+  # Panel de captura
+  - type: entities
+    title: 📸 Agregar Producto con Foto
+    entities:
+      - entity: input_text.product_photo_name
+        name: Nombre del producto
+      - entity: camera.entrada
+        name: Vista previa cámara
+    footer:
+      type: buttons
+      entities:
+        - entity: input_text.product_photo_name
+          name: Tomar Foto y Escanear
+          tap_action:
+            action: call-service
+            service: automation.trigger
+            service_data:
+              entity_id: automation.producto_tomar_foto_y_escanear
+          icon: mdi:camera
+  
+  # Última foto procesada
+  - type: conditional
+    conditions:
+      - entity: input_text.product_last_photo
+        state_not: ""
+    card:
+      type: picture
+      title: Última foto procesada
+      image: /local/product_photos/{{ states('input_text.product_last_photo') }}
+      tap_action:
+        action: more-info
+  
+  # Estado del sistema
+  - type: markdown
+    title: Estado
+    content: |
+      {% if states('input_text.product_last_photo') != '' %}
+      ✅ Última foto: `{{ states('input_text.product_last_photo') }}`
+      {% else %}
+      Ninguna foto procesada aún
+      {% endif %}
+      
+      **Total productos:** {{ states('sensor.product_expiration_total_products') }}
+      **Por vencer:** {{ states('sensor.product_expiration_expiring_soon') }}
+
+---
+
+# Versión simplificada (solo texto y botón)
+
+type: entities
+title: 📸 Agregar Producto
+entities:
+  - entity: input_text.product_photo_name
+    name: Nombre del producto
+  - type: button
+    name: Tomar Foto y Escanear
+    icon: mdi:camera-plus
+    tap_action:
+      action: call-service
+      service: automation.trigger
+      service_data:
+        entity_id: automation.producto_tomar_foto_y_escanear
+
+---
+
+# Galería de productos recientes (con fotos)
+
+type: custom:auto-entities
+card:
+  type: grid
+  columns: 3
+  square: true
+filter:
+  include:
+    - entity_id: sensor.product_expiration_total_products
+      options:
+        type: custom:mushroom-template-card
+        primary: "{{ state_attr('sensor.product_expiration_total_products', 'products')[0].name }}"
+        secondary: "Vence: {{ state_attr('sensor.product_expiration_total_products', 'products')[0].expiry }}"
+        picture: "/local/product_photos/{{ state_attr('sensor.product_expiration_total_products', 'products')[0].image }}"
+sort:
+  method: attribute
+  attribute: last_changed
+  reverse: true

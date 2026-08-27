@@ -151,6 +151,24 @@ automation:
             ({{ state_attr('sensor.product_expiration_next_expiry', 'days_until_expiry') }} días)
 ```
 
+## 📸 Upload de Fotos desde Home Assistant
+
+Workflow completo para tomar fotos de productos, extraer fecha de vencimiento con OCR y agregar automáticamente:
+
+```bash
+cd examples/upload-workflow
+./install.sh
+```
+
+Ver [examples/upload-workflow/README.md](examples/upload-workflow/README.md) para instrucciones detalladas.
+
+**Características:**
+- Snapshot desde cámara configurada o upload manual
+- OCR automático de fecha de vencimiento (pytesseract)
+- Múltiples formatos: DD/MM/YY, VTO: DD/MM/YYYY, DD MES YYYY
+- Dashboard card con preview y estado
+- Notificaciones cuando se agrega producto
+
 ## 📤 Migración desde sistema existente
 
 Si tenés un `products.json` previo:
