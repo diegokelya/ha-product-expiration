@@ -1,0 +1,148 @@
+add_product:
+  name: Add Product
+  description: Add a new product to track its expiration date
+  fields:
+    name:
+      name: Product Name
+      description: Name of the product
+      required: true
+      example: "Hellmann's Mayonnaise"
+      selector:
+        text:
+    expiry:
+      name: Expiry Date
+      description: Product expiration date
+      required: true
+      example: "2027-02-14"
+      selector:
+        date:
+    image:
+      name: Image Filename
+      description: Image filename (will be combined with photo base URL)
+      required: false
+      example: "mayonesa.jpg"
+      selector:
+        text:
+    literal_text:
+      name: Literal Text
+      description: Expiry date text as printed on the product
+      required: false
+      example: "VTO: 14/02/27"
+      selector:
+        text:
+    confidence:
+      name: Confidence Level
+      description: Confidence level of the expiry date reading
+      required: false
+      example: "alta"
+      selector:
+        select:
+          options:
+            - "alta"
+            - "media"
+            - "baja"
+            - "confirmada por usuario"
+    barcode:
+      name: Barcode
+      description: Product barcode or SKU
+      required: false
+      example: "7790895001635"
+      selector:
+        text:
+    quantity:
+      name: Quantity
+      description: Quantity of this product
+      required: false
+      example: 1
+      selector:
+        number:
+          min: 1
+          max: 999
+    category:
+      name: Category
+      description: Product category
+      required: false
+      example: "Condimentos"
+      selector:
+        text:
+    location:
+      name: Storage Location
+      description: Where the product is stored
+      required: false
+      example: "Alacena"
+      selector:
+        text:
+
+remove_product:
+  name: Remove Product
+  description: Remove a product from tracking
+  fields:
+    product_id:
+      name: Product ID
+      description: Unique identifier of the product to remove
+      required: true
+      example: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+      selector:
+        text:
+
+update_product:
+  name: Update Product
+  description: Update product information
+  fields:
+    product_id:
+      name: Product ID
+      description: Unique identifier of the product to update
+      required: true
+      example: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+      selector:
+        text:
+    name:
+      name: Product Name
+      description: New product name
+      required: false
+      selector:
+        text:
+    expiry:
+      name: Expiry Date
+      description: New expiration date
+      required: false
+      selector:
+        date:
+    quantity:
+      name: Quantity
+      description: New quantity
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 999
+    image:
+      name: Image Filename
+      description: New image filename
+      required: false
+      selector:
+        text:
+    category:
+      name: Category
+      description: New category
+      required: false
+      selector:
+        text:
+    location:
+      name: Storage Location
+      description: New storage location
+      required: false
+      selector:
+        text:
+
+import_products:
+  name: Import Products
+  description: Import multiple products at once
+  fields:
+    products:
+      name: Products List
+      description: List of products to import (each must have name and expiry)
+      required: true
+      example: '[{"name":"Product 1","expiry":"2027-01-15"},{"name":"Product 2","expiry":"2027-02-20"}]'
+      selector:
+        object:

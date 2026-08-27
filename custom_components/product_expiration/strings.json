@@ -1,0 +1,140 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Product Expiration Tracker",
+        "description": "Configure product expiration tracking.\n\nWarning days: comma-separated list of days before expiry to trigger warnings (e.g., 30,15,7,3,1)",
+        "data": {
+          "photo_base_url": "Photo Base URL (optional)",
+          "warn_days": "Warning Days"
+        }
+      }
+    },
+    "error": {
+      "invalid_warn_days": "Invalid warning days format. Use comma-separated numbers (e.g., 30,15,7,3,1)"
+    },
+    "abort": {
+      "already_configured": "Product Expiration Tracker is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Product Expiration Options",
+        "description": "Update product expiration settings",
+        "data": {
+          "photo_base_url": "Photo Base URL",
+          "warn_days": "Warning Days"
+        }
+      }
+    },
+    "error": {
+      "invalid_warn_days": "Invalid warning days format"
+    }
+  },
+  "services": {
+    "add_product": {
+      "name": "Add Product",
+      "description": "Add a new product to track",
+      "fields": {
+        "name": {
+          "name": "Product Name",
+          "description": "Name of the product",
+          "required": true
+        },
+        "expiry": {
+          "name": "Expiry Date",
+          "description": "Expiration date (YYYY-MM-DD)",
+          "required": true
+        },
+        "image": {
+          "name": "Image",
+          "description": "Image filename or URL",
+          "required": false
+        },
+        "literal_text": {
+          "name": "Literal Text",
+          "description": "Text as printed on product",
+          "required": false
+        },
+        "confidence": {
+          "name": "Confidence",
+          "description": "Confidence level of expiry date",
+          "required": false
+        },
+        "barcode": {
+          "name": "Barcode",
+          "description": "Product barcode",
+          "required": false
+        },
+        "quantity": {
+          "name": "Quantity",
+          "description": "Quantity of this product",
+          "required": false
+        },
+        "category": {
+          "name": "Category",
+          "description": "Product category",
+          "required": false
+        },
+        "location": {
+          "name": "Location",
+          "description": "Storage location",
+          "required": false
+        }
+      }
+    },
+    "remove_product": {
+      "name": "Remove Product",
+      "description": "Remove a product from tracking",
+      "fields": {
+        "product_id": {
+          "name": "Product ID",
+          "description": "ID of the product to remove",
+          "required": true
+        }
+      }
+    },
+    "update_product": {
+      "name": "Update Product",
+      "description": "Update product information",
+      "fields": {
+        "product_id": {
+          "name": "Product ID",
+          "description": "ID of the product to update",
+          "required": true
+        },
+        "name": {
+          "name": "Product Name",
+          "description": "New product name",
+          "required": false
+        },
+        "expiry": {
+          "name": "Expiry Date",
+          "description": "New expiration date",
+          "required": false
+        },
+        "quantity": {
+          "name": "Quantity",
+          "description": "New quantity",
+          "required": false
+        },
+        "image": {
+          "name": "Image",
+          "description": "New image filename or URL",
+          "required": false
+        },
+        "category": {
+          "name": "Category",
+          "description": "New category",
+          "required": false
+        },
+        "location": {
+          "name": "Location",
+          "description": "New location",
+          "required": false
+        }
+      }
+    }
+  }
+}

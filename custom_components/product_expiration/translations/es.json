@@ -1,0 +1,35 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Rastreador de Vencimientos",
+        "description": "Configurá el rastreo de productos con fecha de vencimiento.\n\nDías de advertencia: lista separada por comas de días antes del vencimiento para alertas (ej: 30,15,7,3,1)",
+        "data": {
+          "photo_base_url": "URL base de fotos (opcional)",
+          "warn_days": "Días de advertencia"
+        }
+      }
+    },
+    "error": {
+      "invalid_warn_days": "Formato inválido. Usá números separados por comas (ej: 30,15,7,3,1)"
+    },
+    "abort": {
+      "already_configured": "Product Expiration Tracker ya está configurado"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opciones de Vencimientos",
+        "description": "Actualizá la configuración",
+        "data": {
+          "photo_base_url": "URL base de fotos",
+          "warn_days": "Días de advertencia"
+        }
+      }
+    },
+    "error": {
+      "invalid_warn_days": "Formato inválido"
+    }
+  }
+}

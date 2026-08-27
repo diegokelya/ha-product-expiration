@@ -1,0 +1,13 @@
+{
+  "domain": "product_expiration",
+  "name": "Product Expiration Tracker",
+  "version": "1.0.0",
+  "documentation": "https://github.com/diegokelyacoubian/ha-product-expiration",
+  "issue_tracker": "https://github.com/diegokelyacoubian/ha-product-expiration/issues",
+  "codeowners": ["@diegokelyacoubian"],
+  "config_flow": true,
+  "dependencies": [],
+  "requirements": [],
+  "iot_class": "local_polling",
+  "integration_type": "service"
+}

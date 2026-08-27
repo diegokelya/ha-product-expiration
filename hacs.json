@@ -1,0 +1,5 @@
+{
+  "name": "Product Expiration Tracker",
+  "render_readme": true,
+  "domains": ["product_expiration"]
+}

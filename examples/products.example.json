@@ -1,0 +1,16 @@
+{
+  "products": [
+    {
+      "id": "example-product-2027-06-15",
+      "name": "Producto de Ejemplo",
+      "expiry": "2027-06-15",
+      "image": "example-product.jpg",
+      "literal_text": "VTO: 15/JUN/27",
+      "confidence": "alta",
+      "quantity": 1,
+      "category": "Ejemplo",
+      "location": "Alacena",
+      "added_at": "2026-08-26T20:00:00"
+    }
+  ]
+}
