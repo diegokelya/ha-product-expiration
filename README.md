@@ -10,13 +10,14 @@ Rastreador de vencimiento de productos para Home Assistant. Gestiona un inventar
 
 - **4 sensores nativos** de Home Assistant con datos en tiempo real
 - **Servicios** para agregar, modificar y eliminar productos vía automatizaciones
-- **Alertas configurables** (días personalizables: 30, 15, 7, 3, 1 antes del vencimiento)
-- **Soporte de fotos** con URL base configurable
+- **Días de advertencia configurables** — personalizá cuándo alertarte (ej: 30, 15, 7, 3, 1 días antes)
+- **Soporte de fotos** — URLs de imágenes en atributos de sensores para mostrar en Lovelace
 - **Categorización** y ubicación de almacenamiento
 - **Códigos de barras** opcionales
 - **Importación masiva** desde JSON
 - **Instalación via HACS**
-- **Traducción** español/inglés
+
+> **Nota:** Esta integración provee sensores y servicios. Las alertas se crean mediante automatizaciones de Home Assistant, y las fotos aparecen como URLs en los atributos de sensores para mostrar en tarjetas Lovelace.
 
 ## 📦 Instalación
 

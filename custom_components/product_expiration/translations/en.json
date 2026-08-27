@@ -1,0 +1,32 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Product Expiration Tracker",
+        "description": "Configure product expiration tracking",
+        "data": {
+          "warn_days": "Warning days (comma-separated, e.g., 30,15,7,3,1)",
+          "photo_base_url": "Photo base URL (optional)"
+        }
+      }
+    },
+    "error": {
+      "invalid_warn_days": "Invalid warning days format. Use comma-separated numbers (e.g., 30,15,7,3,1)"
+    },
+    "abort": {
+      "already_configured": "Product Expiration Tracker is already configured"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Product Expiration Options",
+        "description": "Update configuration",
+        "data": {
+          "warn_days": "Warning days (comma-separated)",
+          "photo_base_url": "Photo base URL (optional)"
+        }
+      }
+    }
+  }
+}

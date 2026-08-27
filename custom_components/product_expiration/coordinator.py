@@ -48,9 +48,17 @@ class ProductExpirationCoordinator(DataUpdateCoordinator):
     
     @property
     def expiring_soon_threshold(self) -> int:
-        """Get the threshold for 'expiring soon' based on warn_days."""
-        # Use the smallest warning day as threshold (typically 1 or 3)
-        return min(self.warn_days) if self.warn_days else 7
+        """Get the threshold for 'expiring soon' based on warn_days.
+        
+        Uses the maximum configured warning period (≤15 days) so products
+        appear in 'expiring_soon' throughout the entire warning window.
+        Very long periods (>15 days) are for early alerts, not 'soon'.
+        """
+        if not self.warn_days:
+            return 7
+        # Filter to reasonable "soon" values (≤15 days) and take the largest
+        candidates = sorted([d for d in self.warn_days if 1 <= d <= 15], reverse=True)
+        return candidates[0] if candidates else 7
     
     def _build_image_url(self, image_filename: str | None) -> str | None:
         """Build full image URL from filename."""

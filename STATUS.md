@@ -1,7 +1,7 @@
 # Estado de Product Expiration Tracker v1.0.0
 
 **Fecha:** 2026-08-27  
-**Estado:** LISTO PARA PRUEBA MANUAL (no producción aún)
+**Estado:** PRE-RELEASE — Pendiente de validación en Home Assistant real
 
 ## ✅ Completado y Verificado
 
@@ -38,10 +38,10 @@
 ## ⚠️ Pendiente de Validación
 
 ### Tests Unitarios
-- [ ] Tests escritos PERO no ejecutados exitosamente
+- [ ] Tests escritos pero no validados en entorno HA completo
 - **Razón:** Requieren `pytest-homeassistant-custom-component` y framework completo de HA
-- **Estado actual:** Fallan con `ModuleNotFoundError: No module named 'homeassistant'`
-- **Impacto:** NO bloqueante para prueba manual, SÍ para CI/CD automatizado
+- **Estado actual:** Sintaxis válida, pero sin ejecución exitosa confirmada
+- **Impacto:** BLOQUEANTE hasta ejecutar con éxito o validar manualmente en HA
 
 ### Validación en Home Assistant Real
 - [ ] Instalación vía UI
@@ -67,13 +67,14 @@ def expiring_soon_threshold(self) -> int:
     return min(self.warn_days) if self.warn_days else 7
 ```
 
-**Semántica:**
+**Semántica (CORREGIDA v1.0.0):**
 - `warn_days` es una lista: `[30, 15, 7, 3, 1]`
-- `expiring_soon_threshold` usa el valor **mínimo** (1 día)
-- Productos "por vencer" = días hasta vencimiento ≤ threshold
-- **Alternativa sugerida:** usar el threshold medio (7 días) en vez del mínimo
+- `expiring_soon_threshold` toma el **valor máximo ≤15 días** (típicamente 7 o 15)
+- Esto significa: productos "por vencer" = aquellos que vencen dentro de ese período
+- Ejemplo: con `[30, 15, 7, 3, 1]` → threshold=15, muestra productos que vencen en ≤15 días
+- Valores >15 días son para alertas tempranas en automatizaciones, no para "expiring_soon"
 
-**Acción recomendada:** Probar en HA real y ajustar si es necesario.
+**Acción recomendada:** Validar comportamiento en HA real con productos de prueba con diferentes fechas de vencimiento.
 
 ## 📋 Checklist para Publicar en GitHub
 

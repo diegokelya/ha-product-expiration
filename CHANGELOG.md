@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - Initial release
-- Product expiration tracking with visual dashboard
+- Product expiration tracking with sensors and services
 - Four sensors: total products, expired, expiring soon, next expiry
 - Services: add_product, update_product, remove_product
 - Configurable warning days (default: 30, 15, 7, 3, 1)
